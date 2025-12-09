@@ -47,6 +47,17 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/send/:userId",
+    name: "send-message",
+    component: () => import("@/views/SendAnonymousMessageView.vue"),
+  },
+  {
+    path: "/messages",
+    name: "messages",
+    component: () => import("@/views/MessagesView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/quiz/:id",
     name: "play-quiz",
     component: () => import("@/views/PlayQuizView.vue"),

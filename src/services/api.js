@@ -120,9 +120,29 @@ export const participantsApi = {
   getParticipationDetails: (participationId) => apiCall(`/participations/${participationId}/details`),
 }
 
+// Messages API
+export const messagesApi = {
+  // Send an anonymous message (PUBLIC)
+  sendMessage: (userId, content) =>
+    apiCall(`/users/${userId}/messages`, {
+      method: "POST",
+      body: JSON.stringify({ content }),
+    }),
+
+  // List received messages (PROTECTED)
+  getMessages: () => apiCall("/messages"),
+
+  // Show a single message (PROTECTED)
+  getMessage: (id) => apiCall(`/messages/${id}`),
+
+  // Delete a message (PROTECTED)
+  deleteMessage: (id) => apiCall(`/messages/${id}`, { method: "DELETE" }),
+}
+
 export default {
   auth: authApi,
   quiz: quizApi,
   questions: questionsApi,
   participants: participantsApi,
+  messages: messagesApi,
 }

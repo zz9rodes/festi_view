@@ -15,6 +15,13 @@
         >
           Mes Quiz
         </router-link>
+        <router-link 
+          to="/messages" 
+          class="text-muted-foreground hover:text-foreground transition-colors"
+          v-if="authStore.isAuthenticated"
+        >
+          Messages
+        </router-link>
         <button 
           @click="handleLogout"
           class="btn text-white bg-red-700 hover:text-foreground inline-flex items-center transition-colors"
