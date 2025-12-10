@@ -1,5 +1,5 @@
 // API Configuration - Replace with your backend URL
-const API_BASE_URL = import.meta.env.VITE_API_URL 
+const API_BASE_URL = import.meta.env.VITE_API_URL
 
 // Helper function for API calls
 async function apiCall(endpoint, options = {}) {
@@ -139,10 +139,17 @@ export const messagesApi = {
   deleteMessage: (id) => apiCall(`/messages/${id}`, { method: "DELETE" }),
 }
 
+// Users API
+export const usersApi = {
+  // Get user public info by public key (PUBLIC)
+  getUserByPublicKey: (publicKey) => apiCall(`/users/${publicKey}`),
+}
+
 export default {
   auth: authApi,
   quiz: quizApi,
   questions: questionsApi,
   participants: participantsApi,
   messages: messagesApi,
+  users: usersApi,
 }

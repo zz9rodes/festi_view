@@ -3,12 +3,41 @@
     <FestiveHeader />
     
     <main class="max-w-md mx-auto px-4 py-16">
-      <div class="card">
+      <!-- Loading State -->
+      <div v-if="loadingRecipient" class="text-center py-12">
+        <Loader2 class="w-8 h-8 animate-spin mx-auto text-primary" />
+        <p class="text-muted-foreground mt-2">Recherche du destinataire...</p>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="errorRecipient" class="card text-center py-12">
+        <div class="text-4xl mb-4">😕</div>
+        <h2 class="text-xl font-semibold text-foreground mb-2">Oups !</h2>
+        <p class="text-destructive">{{ errorRecipient }}</p>
+        <router-link to="/" class="btn btn-ghost mt-4">
+          Retour à l'accueil
+        </router-link>
+      </div>
+
+      <!-- Success State -->
+      <div v-else class="card">
         <div class="text-center mb-8">
-          <div class="text-4xl mb-4">🤫</div>
-          <h1 class="text-2xl font-bold text-foreground">Message Secret</h1>
+          <!-- Recipient Avatar -->
+          <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 overflow-hidden border-2 border-primary/20">
+            <img 
+              v-if="recipient?.avatar" 
+              :src="recipient.avatar" 
+              :alt="recipient.display_name" 
+              class="w-full h-full object-cover"
+            />
+            <span v-else class="text-3xl">👤</span>
+          </div>
+          
+          <h1 class="text-2xl font-bold text-foreground">
+            Message pour {{ recipient?.display_name }}
+          </h1>
           <p class="text-muted-foreground mt-2">
-            Envoyez un message anonyme à cet utilisateur. Il ne saura pas qui vous êtes !
+            Envoyez un message anonyme. {{ recipient?.display_name }} ne saura pas qui vous êtes !
           </p>
         </div>
 
@@ -23,7 +52,7 @@
           <template v-else>
             <div>
               <label for="content" class="block text-sm font-medium text-foreground mb-2">
-                Votre message
+                Votre message secret
               </label>
               <textarea
                 id="content"
@@ -59,17 +88,40 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Loader2 } from 'lucide-vue-next'
 import FestiveHeader from '@/components/FestiveHeader.vue'
 import { useMessagesStore } from '@/stores/messages'
+import { usersApi } from '@/services/api'
 
 const route = useRoute()
 const messagesStore = useMessagesStore()
 
 const content = ref('')
 const success = ref(false)
+
+const recipient = ref(null)
+const loadingRecipient = ref(true)
+const errorRecipient = ref(null)
+
+onMounted(async () => {
+  const publicKey = route.params.publicKey
+  if (!publicKey) {
+    errorRecipient.value = "Lien invalide"
+    loadingRecipient.value = false
+    return
+  }
+
+  try {
+    const response = await usersApi.getUserByPublicKey(publicKey)
+    recipient.value = response.user
+  } catch (e) {
+    errorRecipient.value = "Utilisateur introuvable ou lien expiré"
+  } finally {
+    loadingRecipient.value = false
+  }
+})
 
 async function handleSubmit() {
   const publicKey = route.params.publicKey

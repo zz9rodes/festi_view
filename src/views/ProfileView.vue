@@ -5,8 +5,14 @@
     <main class="max-w-2xl mx-auto px-4 py-8">
       <div class="card">
         <div class="text-center mb-8">
-          <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-4xl">👤</span>
+          <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 overflow-hidden">
+            <img 
+              v-if="authStore.user?.avatar" 
+              :src="authStore.user.avatar" 
+              alt="Avatar" 
+              class="w-full h-full object-cover"
+            />
+            <span v-else class="text-4xl">👤</span>
           </div>
           <h1 class="text-2xl font-bold text-foreground">Mon Profil</h1>
           <p class="text-muted-foreground mt-2">
