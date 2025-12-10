@@ -56,6 +56,22 @@ export const useAuthStore = defineStore("auth", () => {
     } finally {
       loading.value = false
     }
+}
+
+  async function updateProfile(data) {
+    loading.value = true
+    error.value = null
+
+    try {
+      const response = await authApi.updateProfile(data)
+      user.value = response.user
+      return true
+    } catch (e) {
+      error.value = e.message
+      return false
+    } finally {
+      loading.value = false
+    }
   }
 
   function logout() {
@@ -66,18 +82,20 @@ export const useAuthStore = defineStore("auth", () => {
 
   // Initialize - fetch profile if token exists
   if (token.value) {
-    fetchProfile()
+  fetchProfile()
   }
 
-  return {
-    user,
-    token,
-    loading,
-    error,
-    isAuthenticated,
-    login,
-    signup,
-    fetchProfile,
-    logout,
-  }
+
+return {
+  user,
+  token,
+  loading,
+  error,
+  isAuthenticated,
+  login,
+  signup,
+  fetchProfile,
+  updateProfile,
+  logout,
+}
 })

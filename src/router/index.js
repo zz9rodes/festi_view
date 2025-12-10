@@ -29,6 +29,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/profile",
+    name: "profile",
+    component: () => import("@/views/ProfileView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/dashboard/create",
     name: "create-quiz",
     component: () => import("@/views/CreateQuizView.vue"),
