@@ -1,6 +1,8 @@
 // API Configuration - Replace with your backend URL
 const API_BASE_URL = import.meta.env.VITE_API_URL
 
+import { toast } from "vue3-toastify"
+
 // Helper function for API calls
 async function apiCall(endpoint, options = {}) {
   const token = localStorage.getItem("auth_token")
@@ -14,14 +16,30 @@ async function apiCall(endpoint, options = {}) {
     ...options,
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, config)
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, config)
+    const data = await response.json().catch(() => ({}))
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: "Une erreur est survenue" }))
-    throw new Error(error.message || "Une erreur est survenue")
+    if (!response.ok || data.error === true) {
+      const errorMessage = data.message || "Request Failed"
+      toast.error(errorMessage, {
+        theme: "light",
+        position: "top-right",
+      })
+      throw new Error(errorMessage)
+    }
+
+    return data
+  } catch (error) {
+    // Si ce n'est pas une erreur que nous avons déjà levée (avec le toast déjà affiché)
+    if (error.message === "Failed to fetch") {
+      toast.error("Erreur de connexion serveur", {
+        theme: "light",
+        position: "top-right",
+      })
+    }
+    throw error
   }
-
-  return response.json()
 }
 
 // Auth API
