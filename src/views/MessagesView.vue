@@ -12,7 +12,7 @@
         </div>
         
         <div class="card py-2 px-4 inline-flex justify-center items-center gap-2 bg-muted/50">
-          <span class="text-sm text-muted-foreground">Votre lien  :</span>
+          <!-- <span class="text-sm text-muted-foreground">Votre lien  :</span> -->
           <code class="text-xs bg-background px-2 py-1 rounded border border-border select-all">
             {{ shareLink }}
           </code>
@@ -39,7 +39,7 @@
         <p class="text-muted-foreground mb-6">
           Partagez votre lien pour recevoir des messages anonymes !
         </p>
-        <button @click="copyLink" class="btn btn-primary">
+        <button @click="copyLink" class="btn btn-primary inline-flex justify-center items-center">
           <Copy class="w-4 h-4 mr-2" />
           Copier mon lien
         </button>
