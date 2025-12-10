@@ -21,12 +21,12 @@ export const useMessagesStore = defineStore("messages", () => {
         }
     }
 
-    async function sendMessage(userId, content) {
+    async function sendMessage(publicKey, content) {
         loading.value = true
         error.value = null
 
         try {
-            await messagesApi.sendMessage(userId, content)
+            await messagesApi.sendMessage(publicKey, content)
             return true
         } catch (e) {
             error.value = e.message

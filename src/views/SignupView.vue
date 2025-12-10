@@ -66,7 +66,7 @@
           <button 
             type="submit" 
             :disabled="authStore.loading"
-            class="btn btn-primary w-full py-3"
+            class="btn btn-primary w-full py-3 inline-flex justify-center items-center"
           >
             <Loader2 v-if="authStore.loading" class="w-4 h-4 mr-2 animate-spin" />
             {{ authStore.loading ? 'Inscription...' : "S'inscrire" }}

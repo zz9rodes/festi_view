@@ -47,7 +47,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/send/:userId",
+    path: "/send/:publicKey",
     name: "send-message",
     component: () => import("@/views/SendAnonymousMessageView.vue"),
   },

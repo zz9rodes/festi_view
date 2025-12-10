@@ -72,10 +72,10 @@ const content = ref('')
 const success = ref(false)
 
 async function handleSubmit() {
-  const userId = route.params.userId
-  if (!userId) return
+  const publicKey = route.params.publicKey
+  if (!publicKey) return
 
-  const result = await messagesStore.sendMessage(userId, content.value)
+  const result = await messagesStore.sendMessage(publicKey, content.value)
   if (result) {
     success.value = true
     content.value = ''

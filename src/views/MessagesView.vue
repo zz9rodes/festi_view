@@ -11,8 +11,8 @@
           </p>
         </div>
         
-        <div class="card py-2 px-4 flex items-center gap-2 bg-muted/50">
-          <span class="text-sm text-muted-foreground">Votre lien public :</span>
+        <div class="card py-2 px-4 inline-flex justify-center items-center gap-2 bg-muted/50">
+          <span class="text-sm text-muted-foreground">Votre lien  :</span>
           <code class="text-xs bg-background px-2 py-1 rounded border border-border select-all">
             {{ shareLink }}
           </code>
@@ -85,7 +85,7 @@ const copied = ref(false)
 
 const shareLink = computed(() => {
   const baseUrl = window.location.origin
-  return `${baseUrl}/send/${authStore.user?.id}`
+  return `${baseUrl}/send/${authStore.user?.public_key}`
 })
 
 onMounted(() => {

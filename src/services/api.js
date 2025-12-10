@@ -123,8 +123,8 @@ export const participantsApi = {
 // Messages API
 export const messagesApi = {
   // Send an anonymous message (PUBLIC)
-  sendMessage: (userId, content) =>
-    apiCall(`/users/${userId}/messages`, {
+  sendMessage: (publicKey, content) =>
+    apiCall(`/users/${publicKey}/messages`, {
       method: "POST",
       body: JSON.stringify({ content }),
     }),
