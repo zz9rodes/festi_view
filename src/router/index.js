@@ -73,6 +73,25 @@ const routes = [
     name: "participant-results",
     component: () => import("@/views/ParticipantResultsView.vue"),
   },
+  // Admin routes
+  {
+    path: "/admin",
+    name: "admin-dashboard",
+    component: () => import("@/views/admin/AdminDashboardView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: "/admin/users",
+    name: "admin-users",
+    component: () => import("@/views/admin/AdminUsersView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: "/admin/users/:publicKey",
+    name: "admin-user-detail",
+    component: () => import("@/views/admin/AdminUserDetailView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
 ]
 
 const router = createRouter({
@@ -80,12 +99,14 @@ const router = createRouter({
   routes,
 })
 
-// Navigation guard/
+// Navigation guard
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: "login" })
+  } else if (to.meta.requiresAdmin && !authStore.isAdmin) {
+    next({ name: "dashboard" })
   } else {
     next()
   }

@@ -163,6 +163,24 @@ export const usersApi = {
   getUserByPublicKey: (publicKey) => apiCall(`/users/${publicKey}`),
 }
 
+// Admin API (requires admin privileges)
+export const adminApi = {
+  // List all users
+  getUsers: () => apiCall("/admin/users"),
+
+  // List all quizzes
+  getQuizzes: () => apiCall("/admin/quizzes"),
+
+  // Get quiz details with questions
+  getQuiz: (id) => apiCall(`/admin/quizzes/${id}`),
+
+  // List all participations
+  getParticipations: () => apiCall("/admin/participations"),
+
+  // Get messages for a specific user
+  getUserMessages: (publicKey) => apiCall(`/admin/users/${publicKey}/messages`),
+}
+
 export default {
   auth: authApi,
   quiz: quizApi,
@@ -170,4 +188,5 @@ export default {
   participants: participantsApi,
   messages: messagesApi,
   users: usersApi,
+  admin: adminApi,
 }

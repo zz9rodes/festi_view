@@ -9,6 +9,7 @@ export const useAuthStore = defineStore("auth", () => {
   const error = ref(null)
 
   const isAuthenticated = computed(() => !!token.value && !!user.value)
+  const isAdmin = computed(() => user.value?.is_admin === true)
 
   async function login(email, password) {
     loading.value = true
@@ -56,7 +57,7 @@ export const useAuthStore = defineStore("auth", () => {
     } finally {
       loading.value = false
     }
-}
+  }
 
   async function updateProfile(data) {
     loading.value = true
@@ -82,20 +83,21 @@ export const useAuthStore = defineStore("auth", () => {
 
   // Initialize - fetch profile if token exists
   if (token.value) {
-  fetchProfile()
+    fetchProfile()
   }
 
 
-return {
-  user,
-  token,
-  loading,
-  error,
-  isAuthenticated,
-  login,
-  signup,
-  fetchProfile,
-  updateProfile,
-  logout,
-}
+  return {
+    user,
+    token,
+    loading,
+    error,
+    isAuthenticated,
+    isAdmin,
+    login,
+    signup,
+    fetchProfile,
+    updateProfile,
+    logout,
+  }
 })

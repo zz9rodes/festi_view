@@ -36,6 +36,16 @@
             <span class="hidden md:inline">Mon Profil</span>
           </router-link>
 
+          <router-link 
+            v-if="authStore.isAdmin"
+            to="/admin" 
+            class="btn btn-ghost flex items-center text-primary"
+            title="Administration"
+          >
+            <Shield class="w-5 h-5 md:mr-2" />
+            <span class="hidden md:inline">Admin</span>
+          </router-link>
+
           <button 
             @click="handleLogout"
             class="btn bg-destructive text-destructive-foreground hover:bg-destructive/90 flex items-center"
@@ -55,7 +65,7 @@
 </template>
 
 <script setup>
-import { LogOut, LayoutDashboard, MessageSquare, User } from 'lucide-vue-next'
+import { LogOut, LayoutDashboard, MessageSquare, User, Shield } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 
