@@ -92,6 +92,18 @@ const routes = [
     component: () => import("@/views/admin/AdminUserDetailView.vue"),
     meta: { requiresAuth: true, requiresAdmin: true },
   },
+  {
+    path: "/admin/quizzes",
+    name: "admin-quizzes",
+    component: () => import("@/views/admin/AdminQuizzesView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: "/admin/quizzes/:id",
+    name: "admin-quiz-detail",
+    component: () => import("@/views/admin/AdminQuizDetailView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
 ]
 
 const router = createRouter({
