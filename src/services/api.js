@@ -29,7 +29,7 @@ async function apiCall(endpoint, options = {}) {
       throw new Error(errorMessage)
     }
 
-    return data
+    return data.data
   } catch (error) {
     // Si ce n'est pas une erreur que nous avons déjà levée (avec le toast déjà affiché)
     if (error.message === "Failed to fetch") {

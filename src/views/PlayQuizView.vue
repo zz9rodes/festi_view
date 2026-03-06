@@ -58,6 +58,8 @@
           ></div>
         </div>
 
+        {{currentQ}}
+
         <h2 class="text-xl font-semibold text-foreground mb-6">
           {{ currentQ.question_text }}
         </h2>
@@ -147,6 +149,9 @@ function startQuiz() {
 function selectAnswer(index) {
   selectedAnswer.value = index
   const correct = index === currentQ.value.correct_option_index
+
+console.log("my index ",index)
+  console.log("Conrrect Index : ",currentQ.value.correct_option_index)
   
   if (correct) {
     console.log("is Corect : ",correct)

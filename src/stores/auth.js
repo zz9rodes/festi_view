@@ -7,6 +7,7 @@ export const useAuthStore = defineStore("auth", () => {
   const token = ref(localStorage.getItem("auth_token"))
   const loading = ref(false)
   const error = ref(null)
+  const initialized = ref(false)
 
   const isAuthenticated = computed(() => !!token.value && !!user.value)
   const isAdmin = computed(() => user.value?.is_admin === true)
@@ -82,16 +83,21 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   // Initialize - fetch profile if token exists
-  if (token.value) {
-    fetchProfile()
+  async function initializeAuth() {
+    if (token.value) {
+      await fetchProfile()
+    }
+    initialized.value = true
   }
 
+  initializeAuth()
 
   return {
     user,
     token,
     loading,
     error,
+    initialized,
     isAuthenticated,
     isAdmin,
     login,

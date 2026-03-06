@@ -139,7 +139,7 @@
                       Correct
                     </span>
                     <span v-else-if="optIndex === result.selected_option_index" class="text-xs font-medium px-2 py-0.5 rounded-full bg-red-500/20 text-red-700 dark:text-red-300">
-                      Votre réponse
+                      Reponse choisie
                     </span>
                   </div>
                 </div>
