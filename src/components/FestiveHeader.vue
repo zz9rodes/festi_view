@@ -60,6 +60,9 @@
         <router-link to="/login" class="btn btn-ghost" v-else>
           Connexion
         </router-link>
+        <router-link to="/demo" class="btn btn-primary" v-if="!authStore.isAuthenticated">
+          Demo
+        </router-link>
       </nav>
     </div>
   </header>
