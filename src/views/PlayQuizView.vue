@@ -58,7 +58,7 @@
           ></div>
         </div>
 
-        {{currentQ}}
+        <!-- {{currentQ}} -->
 
         <h2 class="text-xl font-semibold text-foreground mb-6">
           {{ currentQ.question_text }}
