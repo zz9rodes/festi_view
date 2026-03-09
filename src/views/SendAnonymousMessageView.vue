@@ -115,7 +115,10 @@ onMounted(async () => {
 
   try {
     const response = await usersApi.getUserByPublicKey(publicKey)
-    recipient.value = response.user
+
+    console.log('Données du destinataire récupérées :', response)
+
+    recipient.value = response
   } catch (e) {
     errorRecipient.value = "Utilisateur introuvable ou lien expiré"
   } finally {

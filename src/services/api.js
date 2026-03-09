@@ -69,6 +69,9 @@ export const authApi = {
 
 // Quiz API
 export const quizApi = {
+  // Get public quizzes (no auth required)
+  getPublicQuizzes: (page = 1) => apiCall(`/quizzes/public?page=${page}`),
+
   // Get all quizzes for the authenticated user
   getMyQuizzes: () => apiCall("/quizzes"),
 

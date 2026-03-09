@@ -9,9 +9,18 @@
       </router-link>
       
       <nav class="flex items-center gap-2 md:gap-4">
+        <router-link
+          to="/explore"
+          class="btn btn-ghost flex items-center"
+          title="Explorer"
+        >
+          <Compass class="w-5 h-5 md:mr-2" />
+          <span class="hidden md:inline">Explorer</span>
+        </router-link>
+
         <template v-if="authStore.isAuthenticated">
-          <router-link 
-            to="/dashboard" 
+          <router-link
+            to="/dashboard"
             class="btn btn-ghost flex items-center"
             title="Mes Quiz"
           >
@@ -69,7 +78,7 @@
 </template>
 
 <script setup>
-import { LogOut, LayoutDashboard, MessageSquare, User, Shield } from 'lucide-vue-next'
+import { LogOut, LayoutDashboard, MessageSquare, User, Shield, Compass } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 
