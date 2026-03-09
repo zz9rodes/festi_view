@@ -12,6 +12,18 @@
         <p class="text-muted-foreground">Ce quiz n'existe pas ou a été supprimé.</p>
       </div>
 
+      <!-- Already participated screen -->
+      <div v-else-if="alreadyParticipated" class="card text-center">
+        <div class="text-6xl mb-4">🚫</div>
+        <h1 class="text-2xl font-bold text-foreground mb-2">Vous avez deja participe</h1>
+        <p class="text-muted-foreground mb-6">
+          Vous avez deja repondu a ce quiz 
+        </p>
+        <router-link to="/" class="btn btn-primary">
+          Retour a l'accueil
+        </router-link>
+      </div>
+
       <!-- Intro screen -->
       <div v-else-if="phase === 'intro'" class="card text-center">
         <div class="text-6xl mb-4">🎄</div>
@@ -85,8 +97,9 @@
           <p :class="isCorrect ? 'text-accent' : 'text-destructive'" class="font-medium mb-4">
             {{ isCorrect ? feedbackMessages.correct : feedbackMessages.wrong }}
           </p>
-          <button @click="nextQuestion" class="btn btn-primary">
-            {{ currentQuestionIndex < quiz.questions.length - 1 ? 'Question suivante' : 'Voir les résultats' }}
+          <button @click="nextQuestion" :disabled="submitting" class="btn btn-primary inline-flex items-center gap-2">
+            <Loader2 v-if="submitting" class="w-4 h-4 animate-spin" />
+            {{ submitting ? 'Envoi en cours...' : (currentQuestionIndex < quiz.questions.length - 1 ? 'Question suivante' : 'Voir les résultats') }}
           </button>
         </div>
       </div>
@@ -114,6 +127,18 @@ const currentQuestionIndex = ref(0)
 const selectedAnswer = ref(null)
 const score = ref(0)
 const answers = ref([])
+const submitting = ref(false)
+const alreadyParticipated = ref(false)
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
+  return match ? match[2] : null
+}
+
+function setCookie(name, value, days = 365) {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString()
+  document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`
+}
 
 const feedbackMessages = {
   correct: ['Bravo ! 🎉', 'Excellent ! ✨', 'Parfait ! 🌟', 'Super ! 🎄'],
@@ -132,8 +157,14 @@ const shuffledOptions = computed(() => {
 const isCorrect = computed(() => selectedAnswer.value === currentQ.value.correct_option_index)
 
 onMounted(async () => {
+  const quizId = route.params.id
+  if (getCookie(`quiz_done_${quizId}`)) {
+    alreadyParticipated.value = true
+    loading.value = false
+    return
+  }
   try {
-    quiz.value = await quizStore.fetchQuizForPlay(route.params.id)
+    quiz.value = await quizStore.fetchQuizForPlay(quizId)
     if (!quiz.value) error.value = true
   } catch {
     error.value = true
@@ -187,16 +218,22 @@ async function nextQuestion() {
     selectedAnswer.value = null
   } else {
     // Submit and go to results
-    const result = await quizStore.submitParticipation(quiz.value.id, participantName.value, answers.value)
-    if (result) {
-      router.push({
-        path: `/quiz/${quiz.value.id}/results`,
-        query: {
-          name: participantName.value,
-          score: score.value,
-          total: quiz.value.questions.length
-        }
-      })
+    submitting.value = true
+    try {
+      const result = await quizStore.submitParticipation(quiz.value.id, participantName.value, answers.value)
+      if (result) {
+        setCookie(`quiz_done_${quiz.value.id}`, '1')
+        router.push({
+          path: `/quiz/${quiz.value.id}/results`,
+          query: {
+            name: participantName.value,
+            score: score.value,
+            total: quiz.value.questions.length
+          }
+        })
+      }
+    } finally {
+      submitting.value = false
     }
   }
 }
