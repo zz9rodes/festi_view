@@ -20,7 +20,7 @@
         </div>
 
         <!-- Stats cards -->
-        <div class="grid md:grid-cols-3 gap-4 mb-8">
+        <div class="grid md:grid-cols-2 gap-4 mb-8">
           <div class="card text-center">
             <Users class="w-8 h-8 mx-auto text-primary mb-2" />
             <div class="text-3xl font-bold text-foreground">{{ stats.participantCount }}</div>
@@ -28,14 +28,14 @@
           </div>
           <div class="card text-center">
             <Target class="w-8 h-8 mx-auto text-accent mb-2" />
-            <div class="text-3xl font-bold text-foreground">{{ stats.averageScore }}%</div>
+            <div class="text-3xl font-bold text-foreground">{{ stats.averagePercentage }}%</div>
             <p class="text-muted-foreground">Score moyen</p>
           </div>
-          <div class="card text-center">
+          <!-- <div class="card text-center">
             <AlertCircle class="w-8 h-8 mx-auto text-destructive mb-2" />
             <div class="text-sm font-medium text-foreground text-xl">{{ stats?.mostMissedQuestion?.question_text || 'N/A' }}</div>
             <p class="text-muted-foreground">est la Question la plus ratée</p>
-          </div>
+          </div> -->
         </div>
 
         <!-- Leaderboard -->
@@ -58,6 +58,7 @@
                 'bg-muted'
               ]"
             >
+
               <div class="flex items-center gap-3">
                 <span class="text-xl">
                   {{ index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.` }}
