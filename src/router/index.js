@@ -74,6 +74,11 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/quiz/:id/podium",
+    name: "public-podium",
+    component: () => import("@/views/PublicPodiumView.vue"),
+  },
+  {
     path: "/quiz/:id",
     name: "play-quiz",
     component: () => import("@/views/PlayQuizView.vue"),

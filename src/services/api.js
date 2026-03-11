@@ -100,6 +100,9 @@ export const quizApi = {
 
   // Get quiz statistics (for creator)
   getQuizStats: (id) => apiCall(`/quizzes/${id}/stats`),
+
+  // Get public stats / podium (no auth required)
+  getPublicStats: (id) => apiCall(`/quizzes/${id}/public-stats`),
 }
 
 // Questions API

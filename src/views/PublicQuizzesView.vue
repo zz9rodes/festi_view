@@ -43,6 +43,13 @@
                 Jouer
               </router-link>
               <router-link
+                :to="`/quiz/${quiz.id}/podium`"
+                class="btn bg-yellow-500/20 text-yellow-600 hover:bg-yellow-500/30 p-2.5"
+                title="Voir le classement"
+              >
+                <Trophy class="w-5 h-5" />
+              </router-link>
+              <router-link
                 v-if="quiz.author_public_key"
                 :to="`/send/${quiz.author_public_key}`"
                 class="btn bg-accent text-accent-foreground hover:bg-accent/80 p-2.5"
@@ -81,7 +88,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Loader2, MessageCircle } from 'lucide-vue-next'
+import { Loader2, MessageCircle, Trophy } from 'lucide-vue-next'
 import FestiveHeader from '@/components/FestiveHeader.vue'
 import { quizApi } from '@/services/api'
 
